@@ -1,13 +1,13 @@
---- Source/JavaScriptCore/offlineasm/arm64.rb.orig	2025-02-15 11:33:50 UTC
-+++ Source/JavaScriptCore/offlineasm/arm64.rb
-@@ -1368,8 +1368,8 @@ class Instruction
-             $asm.puts "Ljsc_llint_loh_ldr_#{uid}:"
+--- Source/JavaScriptCore/offlineasm/arm64.rb.orig	2026-07-24 10:02:50.785346700 +0200
++++ Source/JavaScriptCore/offlineasm/arm64.rb	2026-10-25 10:00:31.798647000 +0100
+@@ -1458,8 +1458,8 @@
              $asm.puts "ldr #{operands[1].arm64Operand(:quad)}, [#{operands[1].arm64Operand(:quad)}, #{operands[0].asmLabel}@GOTPAGEOFF]"
+             $asm.putStr("#endif")
  
 -            # On Linux, use ELF GOT relocation specifiers.
 -            $asm.putStr("#elif OS(LINUX)")
-+            # On Linux and FreeBSD, use ELF GOT relocation specifiers.
-+            $asm.putStr("#elif OS(LINUX) || OS(FREEBSD)")
-             $asm.puts "adrp #{operands[1].arm64Operand(:quad)}, :got:#{operands[0].asmLabel}"
-             $asm.puts "ldr #{operands[1].arm64Operand(:quad)}, [#{operands[1].arm64Operand(:quad)}, :got_lo12:#{operands[0].asmLabel}]"
++            # On Linux, FreeBSD, and OpenBSD, use ELF GOT relocation specifiers.
++            $asm.putStr("#elif OS(LINUX) || OS(FREEBSD) || OS(OPENBSD)")
  
+             $asm.puts "adrp #{operands[1].arm64Operand(:quad)}, :got:#{operands[0].asmLabel}"
+             $asm.putStr("#if CPU(ADDRESS32)")

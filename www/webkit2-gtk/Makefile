@@ -1,6 +1,6 @@
 PORTNAME=	webkit
-DISTVERSION=	2.46.6
-PORTREVISION=	8
+DISTVERSION=	2.54.2
+PORTREVISION=	0
 CATEGORIES=	www
 MASTER_SITES=	https://webkitgtk.org/releases/
 PKGNAMESUFFIX=	2-gtk_${FLAVOR}
@@ -39,17 +39,18 @@ LIB_DEPENDS=	libavif.so:graphics/libavif \
 		libsysinfo.so:devel/libsysinfo \
 		libtasn1.so:security/libtasn1 \
 		libwebp.so:graphics/webp \
-		libwoff2dec.so:devel/woff2
+		libwoff2dec.so:devel/woff2 \
+		libsoup-3.0.so:devel/libsoup3
 
 PORTSCOUT=	limitw:1,even
 
-FLAVORS=	60 41 40
+FLAVORS=	60 41
 FLAVOR?=	${FLAVORS:[1]}
 
 USES=		bison cmake compiler:c++23-lang cpe gettext gl gnome gperf \
 		jpeg localbase:ldflags perl5 pkgconfig python:build \
 		ruby:build sqlite tar:xz xorg
-USE_GNOME=	cairo gdkpixbuf introspection:build libxml2 libxslt
+USE_GNOME=	gdkpixbuf introspection:build libxml2 libxslt
 USE_GL=		egl gbm gl glesv2
 USE_LDCONFIG=	yes
 USE_PERL5=	build
@@ -84,18 +85,6 @@ JAVASCRIPTCORE_LIBRARY_VERSION=	1 3 15
 USE_GNOME+=	gtk30
 
 CMAKE_OFF+=	USE_GTK4
-.endif
-.if ${FLAVOR:M40}
-DEPRECATED=	libsoup 2 support scheduled for removal in 2.52: https://webkitgtk.org/2025/10/07/webkitgtk-soup2-deprecation.html
-
-LIB_DEPENDS+=	libsoup-2.4.so:devel/libsoup
-
-CMAKE_ON+=	USE_SOUP2
-API_VERSION=	4.0
-WEBKIT_LIBRARY_VERSION=	37 71 8
-JAVASCRIPTCORE_LIBRARY_VERSION=	18 25 15
-.else
-LIB_DEPENDS+=	libsoup-3.0.so:devel/libsoup3
 .endif
 .if ${FLAVOR:M41}
 API_VERSION=	4.1
